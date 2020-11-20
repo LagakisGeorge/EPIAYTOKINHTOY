@@ -428,14 +428,27 @@ On Error GoTo 0
 
 
 
-GREM.Execute "SELECT *  INTO EGGTIM   FROM " + linked_server + ".EGGTIM WHERE ATIM='" + c3 + "'", n
+
+Dim C35 As String, R35 As New ADODB.Recordset
+C35 = " FROM " + linked_server + ".EGGTIM  WHERE ATIM='" + c3 + "'"
+R35.Open "select count(*) " + C35, GREM, adOpenDynamic
+ List2.AddItem "еКЕЦВОР м5 ok" + Chr(13) + Str(R35(0)) + "EGGTIM еццяажес "
+R35.Close
+
+
+
+GREM.Execute "SELECT *  INTO EGGTIM  " + C35, n
 
 If n > 0 Then
     List2.AddItem "еКЕЦВОР м5 ok" + Chr(13) + "EGGTIM еццяажес " + Str(n)
      GREM.Execute "alter table EGGTIM  drop COLUMN ID"
      GREM.Execute "UPDATE EGGTIM SET ID_NUM=1" ' епеидг ха намадглиоуяцгхеи то тил йаи ха паяеи то 1 то суцйемтяытийо
 Else
-   MsgBox "еКЕЦВОР м5 кахос" + Chr(13) + "EGGTIM "
+   MsgBox "еКЕЦВОР м5 кахос" + Chr(13) + "EGGTIM дем летажеяхгйе то суцйемтяытийо"
+  
+   
+   
+   
    GREM.Close
    Exit Sub
 End If
@@ -495,6 +508,7 @@ If R(0) = Val(c2) Then
    GREM.Execute "UPDATE EGGTIM SET XRE=POSO,PIS=0"
 Else
    MsgBox "еКЕЦВОР текийос кахос" + Chr(13) + "EGGTIM"
+   GREM.Execute "UPDATE EGGTIM SET XRE=POSO,PIS=0"
    GDB.Close
 
    Exit Sub

@@ -84,29 +84,6 @@ Attribute VB_Exposed = False
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Dim GDB As New ADODB.Connection
 Dim GREM As New ADODB.Connection
 
@@ -138,7 +115,8 @@ Private Sub Command1_Click()
 End Sub
 
 Private Sub Command2_Click()
-
+   
+'===================================================================================
 Dim n, c, c2, c3
 '
 ' c = InputBox("‰˘ÛÂ ÙÔÌ ·ÒÈËÏ¸ ÙÔı Ûı„ÍÂÌÙÒ˘ÙÈÍÔ˝")
@@ -155,6 +133,13 @@ Open "c:\MERCPATH.TXT" For Input As #1
    
 Close #1
 
+
+
+
+
+
+
+
 GREM.Open fConnString
 
 List2.AddItem "”’Õƒ≈”« Ã≈ ÷œ—«‘œ œ "
@@ -167,7 +152,7 @@ GDB.Open c ' "DSN=FORITO;UID=sa;PWD=sa"
 List2.AddItem "”’Õƒ≈”« Ã≈ ‘œ–… œ œ "
 
 
-
+GDB.BeginTrans
 
 Dim r As New ADODB.Recordset
 
@@ -189,14 +174,19 @@ r.Close
 
 Dim ar_sygk As Long
 
-r.Open "SELECT ARITMISI FROM ARITMISI WHERE ID=32", GDB, adOpenDynamic, adLockOptimistic
-ar_sygk = r(0) + 1
+'r.Open "SELECT ARITMISI FROM ARITMISI WHERE ID=32", GDB, adOpenDynamic, adLockOptimistic
+
+
+r.Open "SELECT max(ATIM) FROM TIM WHERE LEFT(ATIM,1)='Ù' ", GDB, adOpenDynamic, adLockOptimistic
+Dim ff As String
+
+ar_sygk = Val(Mid(r(0), 2, 6)) + 1
 r.Close
 
 
 
 
- GDB.BeginTrans
+' GDB.BeginTrans
 
 On Error Resume Next
 'GDB.Execute "DROP TABLE TEMP_EGG"
@@ -244,8 +234,25 @@ Dim RTT As New ADODB.Recordset
 RTT.Open "SELECT MAX(ATIM) AS C20,MIN(ATIM) AS C10 FROM TIM WHERE LEFT(ATIM,1)='Q' ", GREM, adOpenDynamic, adLockOptimistic
 
 Dim CMAX As String, CMIN As String
-CMAX = LTrim(Str(Val(Mid(RTT(0), 2, 6))))
-CMIN = LTrim(Str(Val(Mid(RTT(1), 2, 6))))
+
+
+If IsNull(RTT(0)) Then
+    CMAX = ""
+Else
+    CMAX = LTrim(Str(Val(Mid(RTT(0), 2, 6))))
+
+End If
+
+
+If IsNull(RTT(1)) Then
+    CMIN = ""
+Else
+
+   CMIN = LTrim(Str(Val(Mid(RTT(1), 2, 6))))
+End If
+
+
+
 
 RTT.Close
 
@@ -280,11 +287,24 @@ End If
 
 
 Dim COLTIM As String
-COLTIM = "KPE,HME,TRP,ATIM,ART,AJI,EIDOS,METAF,EKPT,EIDPAR,FPA1,FPA2,FPA3,FPA4,FPA6,FPA7,FPA8,FPA9,TYP,AJ1, AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9,EKPT1,EKPT2,EKPT3,EKPT4,EKPT5,HME_KATAX,KERDOS,SKOPOS,SXETIKO,PARAT,ELGA,SYNPOS,SKOPOS2,FORTOSH,PROOR,AYTOK,B_C1,B_C2,B_N1,B_N2,KR1,KR2,ATIM2"
+'COLTIM = "KLEIDI,KPE,HME,TRP,ATIM,ART,AJI,EIDOS,METAF,EKPT,EIDPAR,FPA1,FPA2,FPA3,FPA4,FPA6,FPA7,FPA8,FPA9,TYP,AJ1, AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9,EKPT1,EKPT2,EKPT3,EKPT4,EKPT5,HME_KATAX,KERDOS,SKOPOS,SXETIKO,PARAT,ELGA,SYNPOS,SKOPOS2,FORTOSH,PROOR,AYTOK,B_C1,B_C2,B_N1,B_N2,KR1,KR2,ATIM2"
+
+'c = "insert into  TIM(" + COLTIM + ") select " + COLTIM + " from " + Linked_Server + "TIM WHERE LEFT(ATIM,1)<>'Ù'"
+
+'GDB.Execute c, n
+
+COLTIM = "KLEIDI,KPE,HME,TRP,ATIM,ART,AJI,EIDOS,METAF,EKPT,EIDPAR,FPA1,FPA2,FPA3,FPA4,FPA6,FPA7,FPA8,FPA9,TYP,AJ1, AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9,EKPT1,EKPT2,EKPT3,EKPT4,EKPT5,HME_KATAX,KERDOS,SKOPOS,SXETIKO,PARAT,ELGA,SYNPOS,SKOPOS2,FORTOSH,PROOR,AYTOK,B_C1,B_C2,B_N1,B_N2,KR1,KR2,ATIM2"
 
 c = "insert into  TIM(" + COLTIM + ") select " + COLTIM + " from " + Linked_Server + "TIM WHERE LEFT(ATIM,1)<>'Ù'"
 
 GDB.Execute c, n
+
+
+
+
+
+
+
 
 If n > 0 Then
    List2.AddItem "≈ÎÂ„˜ÔÚ Õ3 ok" + Chr(13) + "TIM ≈√√—¡÷≈” " + Str(n)
@@ -397,7 +417,7 @@ End If
 
 
 'ƒ…ÕŸ Õ≈œ ¡—…»Ãœ ”‘œ ”’√ ≈Õ‘—Ÿ‘… œ –œ’ »¡ ≈…”¡◊»≈…
-GREM.Execute "UPDATE TIM SET  PARAT='TIMOÀO√…¡ ¡–œ " + CMIN + " ≈Ÿ”  ¡… " + CMAX + " ', ATIM= 'Ù" + Format(ar_sygk, "000000") + "' WHERE LEFT(ATIM,1)='Ù'   ", n
+GREM.Execute "UPDATE TIM SET KLEIDI= 'Ù" + Format(ar_sygk, "000000") + "  ', PARAT='TIMOÀO√…¡ ¡–œ " + CMIN + " ≈Ÿ”  ¡… " + CMAX + " ', ATIM= 'Ù" + Format(ar_sygk, "000000") + "' WHERE LEFT(ATIM,1)='Ù'   ", n
 '
 '+RTRIM(RIGHT(CONVERT(VARCHAR(7),1000000+1+CONVERT(INT,SUBSTRING(ATIM,2,6))) ,6))
 
@@ -426,12 +446,20 @@ End If
  
  
  '20-10  +  SELECT TOP 1
+
 c = "insert into TIM(" + COLTIM + ")  SELECT TOP 1 " + COLTIM + ""
 c = c + " from " + Linked_Server + "TIM WHERE LEFT(ATIM,1)='Ù'"
 
+On Error GoTo show_mess
+
 GDB.Execute c, n
  
- 
+If n = 0 Then
+   GDB.RollbackTrans
+   MsgBox "·‰ıÌ·ÙÁ Á ‰ÁÏÈÔıÒ„ﬂ· Ûı„ÍÂÌÙÒ˘ÙÈÍÔı ÂÈÛÙÒÔˆﬁÚ"
+   Exit Sub
+End If
+
  
  
  
@@ -458,7 +486,7 @@ End If
 
 
 
-GDB.Execute "update ARITMISI set ARITMISI=ARITMISI+1 where ID=32", n
+GDB.Execute "update ARITMISI set ARITMISI=" + Str(ar_sygk) + " where ID=32", n
 
 If n > 0 Then
    List2.AddItem "≈ÎÂ„˜ÔÚ Õ12 ok" + Chr(13) + "≈…”¡√Ÿ√«  (UPDATE ARITMISI )" + Str(n)
@@ -507,7 +535,13 @@ GDB.CommitTrans
 
 MsgBox "OK"
 
+Exit Sub
 
+
+
+show_mess:
+MsgBox Err.Description
+Resume Next
 
 
 

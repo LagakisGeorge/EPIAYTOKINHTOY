@@ -1,8 +1,8 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\Windows\SysWOW64\stdole2.tlb#OLE Automation
-Reference=*\G{6FD930BF-FCBE-11D2-AB6E-00C04F79EE8C}#1.0#0#custtask.dll#Microsoft DTS Custom Tasks Object Library
-Reference=*\G{10010200-740B-11D0-AE7B-00AA004A34D5}#2.0#0#dtspump.dll#Microsoft DTSDataPump Scripting Object Library
-Reference=*\G{10010001-EB1C-11CF-AE6E-00AA004A34D5}#2.0#0#dtspkg.dll#Microsoft DTSPackage Object Library
+Reference=*\G{6FD930BF-FCBE-11D2-AB6E-00C04F79EE8C}#1.0#0#..\SEND\custtask.dll#Microsoft DTS Custom Tasks Object Library
+Reference=*\G{10010200-740B-11D0-AE7B-00AA004A34D5}#2.0#0#..\SEND\dtspump.dll#Microsoft DTSDataPump Scripting Object Library
+Reference=*\G{10010001-EB1C-11CF-AE6E-00AA004A34D5}#2.0#0#..\SEND\dtspkg.dll#Microsoft DTSPackage Object Library
 Reference=*\G{2A75196C-D9EB-4129-B803-931327F72D5C}#2.8#0#C:\Program Files (x86)\Common Files\System\ado\msado28.tlb#Microsoft ActiveX Data Objects 2.8 Library
 Form=DTS-PARALABH.frm
 Startup="frmDTSTransferObjectsTask"
