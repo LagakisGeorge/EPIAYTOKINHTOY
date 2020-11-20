@@ -186,6 +186,72 @@ r.Close
 
 
 
+
+
+
+'ÂÈÛ·„˘„Á Â„„Ò·ˆ˘Ì TIM ‘…ÃœÀœ√…ŸÕ «Ã≈—¡”
+
+
+
+Dim COLTIM As String
+'COLTIM = "KLEIDI,KPE,HME,TRP,ATIM,ART,AJI,EIDOS,METAF,EKPT,EIDPAR,FPA1,FPA2,FPA3,FPA4,FPA6,FPA7,FPA8,FPA9,TYP,AJ1, AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9,EKPT1,EKPT2,EKPT3,EKPT4,EKPT5,HME_KATAX,KERDOS,SKOPOS,SXETIKO,PARAT,ELGA,SYNPOS,SKOPOS2,FORTOSH,PROOR,AYTOK,B_C1,B_C2,B_N1,B_N2,KR1,KR2,ATIM2"
+
+'c = "insert into  TIM(" + COLTIM + ") select " + COLTIM + " from " + Linked_Server + "TIM WHERE LEFT(ATIM,1)<>'Ù'"
+
+'GDB.Execute c, n
+
+COLTIM = "KLEIDI,KPE,HME,TRP,ATIM,ART,AJI,EIDOS,METAF,EKPT,EIDPAR,FPA1,FPA2,FPA3,FPA4,FPA6,FPA7,FPA8,FPA9,TYP,AJ1, AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9,EKPT1,EKPT2,EKPT3,EKPT4,EKPT5,HME_KATAX,KERDOS,SKOPOS,SXETIKO,PARAT,ELGA,SYNPOS,SKOPOS2,FORTOSH,PROOR,AYTOK,B_C1,B_C2,B_N1,B_N2,KR1,KR2,ATIM2"
+
+c = "insert into  TIM(" + COLTIM + ") select " + COLTIM + " from " + Linked_Server + "TIM WHERE LEFT(ATIM,1)<>'Ù'"
+
+GDB.Execute c, n
+
+If n > 0 Then
+   List2.AddItem "≈ÎÂ„˜ÔÚ Õ3 ok" + Chr(13) + "TIM ≈√√—¡÷≈” " + Str(n)
+Else
+   MsgBox "≈ÎÂ„˜ÔÚ Õ3 À¡»œ”" + Chr(13) + "TIM "
+   
+   GDB.RollbackTrans
+   GDB.Close
+   Exit Sub
+End If
+
+
+ ' ¬¡∆Ÿ ‘œ ID_NUM –œ’ –«—≈ ‘œ ‘…Ã ”‘œ EGG & EGGTIM –—…Õ  ¡ÕŸ ‘œ INSERT
+ 
+ Dim R56 As New ADODB.Recordset
+ Dim R57loc As New ADODB.Recordset
+ R56.Open "SELECT * FROM TIM WHERE LEFT(ATIM,1)<>'Ù'", GREM, adOpenDynamic, adLockOptimistic
+ Do While Not R56.EOF
+     R57loc.Open "select ID_NUM FROM TIM WHERE ATIM='" + R56!ATIM + "' AND HME='" + Format(R56!HME, "mm/DD/YYYY") + "'", GDB, adOpenDynamic, adLockOptimistic
+     If Not R57loc.EOF Then
+       If Not IsNull(R57loc(0)) Then
+         GREM.Execute "update EGGTIM SET ID_NUM=" + Str(R57loc(0)) + " WHERE ATIM='" + R56!ATIM + "' AND HME='" + Format(R56!HME, "mm/DD/YYYY") + "'"
+         GREM.Execute "update EGG    SET IDTIM =" + Str(R57loc(0)) + " WHERE ATIM='" + R56!ATIM + "' AND HME='" + Format(R56!HME, "mm/DD/YYYY") + "'"
+       
+       End If
+     End If
+     R57loc.Close
+     R56.MoveNext
+ Loop
+R56.Close
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ' GDB.BeginTrans
 
 On Error Resume Next
@@ -281,40 +347,6 @@ Else
    Exit Sub
 End If
 
-
-'ÂÈÛ·„˘„Á Â„„Ò·ˆ˘Ì TIM ‘…ÃœÀœ√…ŸÕ «Ã≈—¡”
-
-
-
-Dim COLTIM As String
-'COLTIM = "KLEIDI,KPE,HME,TRP,ATIM,ART,AJI,EIDOS,METAF,EKPT,EIDPAR,FPA1,FPA2,FPA3,FPA4,FPA6,FPA7,FPA8,FPA9,TYP,AJ1, AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9,EKPT1,EKPT2,EKPT3,EKPT4,EKPT5,HME_KATAX,KERDOS,SKOPOS,SXETIKO,PARAT,ELGA,SYNPOS,SKOPOS2,FORTOSH,PROOR,AYTOK,B_C1,B_C2,B_N1,B_N2,KR1,KR2,ATIM2"
-
-'c = "insert into  TIM(" + COLTIM + ") select " + COLTIM + " from " + Linked_Server + "TIM WHERE LEFT(ATIM,1)<>'Ù'"
-
-'GDB.Execute c, n
-
-COLTIM = "KLEIDI,KPE,HME,TRP,ATIM,ART,AJI,EIDOS,METAF,EKPT,EIDPAR,FPA1,FPA2,FPA3,FPA4,FPA6,FPA7,FPA8,FPA9,TYP,AJ1, AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9,EKPT1,EKPT2,EKPT3,EKPT4,EKPT5,HME_KATAX,KERDOS,SKOPOS,SXETIKO,PARAT,ELGA,SYNPOS,SKOPOS2,FORTOSH,PROOR,AYTOK,B_C1,B_C2,B_N1,B_N2,KR1,KR2,ATIM2"
-
-c = "insert into  TIM(" + COLTIM + ") select " + COLTIM + " from " + Linked_Server + "TIM WHERE LEFT(ATIM,1)<>'Ù'"
-
-GDB.Execute c, n
-
-
-
-
-
-
-
-
-If n > 0 Then
-   List2.AddItem "≈ÎÂ„˜ÔÚ Õ3 ok" + Chr(13) + "TIM ≈√√—¡÷≈” " + Str(n)
-Else
-   MsgBox "≈ÎÂ„˜ÔÚ Õ3 À¡»œ”" + Chr(13) + "TIM "
-   
-   GDB.RollbackTrans
-   GDB.Close
-   Exit Sub
-End If
 
 
 
@@ -475,6 +507,39 @@ Else
 End If
 
 '   GDB.RollbackTrans
+
+
+
+
+' ¬¡∆Ÿ ‘œ ID_NUM –œ’ –«—≈ ‘œ ‘…Ã ”‘œ EGGTIM TOY SYGENTRVTIKOY
+ 
+ Dim R156 As New ADODB.Recordset
+ Dim R157loc As New ADODB.Recordset
+ R156.Open "SELECT * FROM TIM WHERE LEFT(ATIM,1)='Ù'", GREM, adOpenDynamic, adLockOptimistic
+ Do While Not R156.EOF
+     R157loc.Open "select ID_NUM FROM TIM WHERE ATIM='" + R156!ATIM + "' AND HME='" + Format(R156!HME, "mm/DD/YYYY") + "'", GDB, adOpenDynamic, adLockOptimistic
+     If Not R157loc.EOF Then
+       If Not IsNull(R157loc(0)) Then
+         GDB.Execute "update EGGTIM SET ID_NUM=" + Str(R157loc(0)) + " WHERE ATIM='" + R156!ATIM + "' AND CONVERT(CHAR(10),HME,103)='" + Format(R156!HME, "DD/mm/YYYY") + "'", n
+         'GREM.Execute "update EGG    SET IDTIM =" + Str(R57loc(0)) + " WHERE ATIM='" + R56!ATIM + "' AND HME='" + Format(R56!HME, "mm/DD/YYYY") + "'"
+       
+       End If
+          
+     End If
+     R157loc.Close
+     R156.MoveNext
+ Loop
+
+
+
+
+
+
+
+
+
+
+
 
 
 
