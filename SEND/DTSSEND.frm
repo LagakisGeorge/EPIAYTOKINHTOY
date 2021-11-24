@@ -7,27 +7,38 @@ Begin VB.Form frmDTSTransferObjectsTask
    ClientTop       =   330
    ClientWidth     =   8175
    LinkTopic       =   "Form1"
+   LockControls    =   -1  'True
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   6435
    ScaleWidth      =   8175
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton NeoiPel 
+      BackColor       =   &H00FFFF80&
+      Caption         =   "Νέοι Πελάτες"
+      Height          =   435
+      Left            =   3600
+      Style           =   1  'Graphical
+      TabIndex        =   3
+      Top             =   0
+      Width           =   3495
+   End
    Begin VB.ListBox List2 
       Height          =   5520
-      Left            =   120
+      Left            =   0
       TabIndex        =   1
       Top             =   720
-      Width           =   7455
+      Width           =   7575
    End
    Begin VB.CommandButton Command2 
       BackColor       =   &H0080FF80&
       Caption         =   "Αποστολή Συγκεντρωτικου σε Φορτηγό"
       Height          =   435
-      Left            =   840
+      Left            =   0
       Style           =   1  'Graphical
       TabIndex        =   0
-      Top             =   120
-      Width           =   4575
+      Top             =   0
+      Width           =   3495
    End
    Begin VB.Timer Timer1 
       Interval        =   60000
@@ -39,7 +50,7 @@ Begin VB.Form frmDTSTransferObjectsTask
       Height          =   375
       Left            =   7320
       TabIndex        =   2
-      Top             =   240
+      Top             =   0
       Width           =   615
    End
 End
@@ -314,7 +325,7 @@ GDB.Open gconnect   '  "DSN=FORITO;UID=sa;PWD=sa"
 
 
 'Dim linked_server As String: linked_server = "[QUEST-PC\DOYTSIOS].mercury.dbo"
-Dim linked_server As String:
+Dim linked_server As String: ' MPAINEI STO ΜΕΡΨΠΑΤΗ ΤΟΥ ΦΟΡΗΤΟΥ 3Η ΣΕΙΡΑ   Π..Χ.  [OIKIAS].MERCURY.dbo
 linked_server = FLINKED '  "[KENTRIKOS\SQLGOGAKIS].MERCURY.dbo"
 
 Dim R As New ADODB.Recordset
@@ -556,10 +567,10 @@ Private Sub Form_Load()
 'Close #1
 
  
-Open "c:\mercpath.txt" For Input As #1
-Input #1, fConnString  'REMOTE SERVER ME DEFAULT DATABASE MERCURY
+Open "c:\MERCVB\mercpath.txt" For Input As #1
+Input #1, fConnString  'DSN REMOTE SERVER ME DEFAULT DATABASE MERCURY P.X. dsn=delloikias2;uid=sa;pwd=12345678
 Input #1, gconnect
-Input #1, FLINKED
+Input #1, FLINKED  'linked server (sto forhto) pos blepo ton sql toy kentrikoy p.x. [QUEST-PC\DOYTSIOS].mercury.dbo
 
 Close #1
  
@@ -580,6 +591,393 @@ Private Sub Label1_Click()
 
 MsgBox "στο MercPath.txt στην πρώτη σειρά γραφω dsn=FORITO;uid=sa;pwd=sa για να συνδεθώ στο MERCURY ΤΟΥ ΦΟΡΗΤΟΥ"
 MsgBox "ΣΤΗΝ 3Η ΣΕΙΡΑ ΤΟΥ MERCPATH.TXT ΓΡΑΦΩ ΤΟ ΟΝΟΜΑ KENTRIKOY POY EINAI DHLVMENOS STON FORHTO SAN LINKED SERVER  P.X. [KENTRIKOS\SQLGOGAKIS].MERCURY.dbo"
+
+
+
+
+End Sub
+
+Private Sub NeoiPel_Click()
+
+
+Dim n, c, c2, c3
+
+
+
+
+
+
+
+
+'c = InputBox("δωσε τον αριθμό του συγκεντρωτικού")
+
+
+
+'c2 = InputBox("δωσε το αθροισμα των ποσοτήτων του συγκεντρωτικού για έλεγχο")
+
+'c3 = "τ" + Format(c, "000000")
+
+
+
+GDB.Open gconnect   '  "DSN=FORITO;UID=sa;PWD=sa"
+
+
+'Dim linked_server As String: linked_server = "[QUEST-PC\DOYTSIOS].mercury.dbo"
+Dim linked_server As String:
+linked_server = FLINKED 'local  "[KENTRIKOS\SQLGOGAKIS].MERCURY.dbo"
+
+Dim R As New ADODB.Recordset
+
+'R.Open "select sum(POSO) from EGGTIM WHERE LEFT(ATIM,7)='υ' and day(HME)=DAY(GETDATE())", GREM, adOpenDynamic, adLockOptimistic
+'
+'If R(0) > 0 Then
+'   MsgBox "ΥΠΑΡΧΟΥΝ ΣΗΜΕΡΙΝΑ ΤΙΜΟΛΟΓΙΑ ΣΤΟ ΦΟΡΗΤΟ. ΞΕΦΟΡΤΩΣΤΕ ΤΟ ΦΟΡΗΤΟ "
+'   GDB.Close
+'   Exit Sub
+'End If
+' List2.AddItem "Ελεγχος 1 OK"
+'R.Close
+
+
+
+
+
+Dim GMAGAZ As New ADODB.Connection
+'GMAGAZ.Open "DSN=delloikias2;uid=sa;pwd=12345678"
+
+
+
+
+
+ 'R.Open "SELECT COUNT(*) AS N FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME  = 'PEL'", GREM, adOpenDynamic, adLockOptimistic
+
+
+
+On Error Resume Next
+    ' GREM.Execute "DROP TABLE PEL"
+
+
+GMAGAZ.Open fConnString   'DSN REMOTE SERVER ME DEFAULT DATABASE MERCURY P.X. dsn=delloikias2;uid=sa;pwd=12345678
+
+List2.AddItem "Ελεγχος 2 OK"
+ On Error GoTo 0
+     
+Dim PelFields As String
+PelFields = "EIDOS,EPO,ONO,DIE,POL,THL,EPA,AFM,PEK,AEG,AYP,TYP,XRESYN,KOD,SHM1,SHM2,KART,XREMHN,PISMHN,XRE,PIS,PMXRE,PMPIS,LASTUPDT,PISSYN,ARTIM,SUMTIM,KODGAL,PLAISIO,ARPARAG,HMELHJ,HME_LHJ,TYPOS,XRVMA,DOY,PLAFON,HMERESAPOP,MEMO,NUM1,NUM2,NUM3,NUM4,HM1,HM2,HM3,HM4,HM5,HM6,CH1,CH2,CH3,CH4,CH5,CH6,ENERGOS,NUM5,NUM6,COMB1,COMB2,COMB3,COMB4,COMB5,EMAIL,KINHTO,PVLHTHS,HM7,HM8,HM9,HM10,HM11,ADT,CH7,COUNTRY"
+     
+cc = "insert into PEL(" + PelFields + ") SELECT " + PelFields + "  FROM " + linked_server + ".PEL P  WHERE   P.KOD NOT IN (SELECT KOD FROM PEL  ) "
+'ΕΝΗΜΕΡΩΝΕΙ ΤΟ ΤΟΠΙΚΟ PEL (laptop forthgoy)  ΜΕ ΤΟΥΣ ΠΕΛΑΤΕΣ ΠΟΥ ΤΟΥ ΛΕΙΠΟΥΝ ΑΠΟ ΤΟ ΑΠΟΜΑΚΡΥΣΜΕΝΟ PEL (magazioy,oikias)'
+'GMAGAZ.Execute "insert into PEL(KOD,EPO)  SELECT  KOD,EPO FROM [OIKIAS].MERCURY.dbo.PEL P WHERE P.KOD NOT IN (SELECT KOD FROM PEL ) "
+     
+GDB.Execute cc, n
+
+
+
+
+'ΕΝΗΜΕΡΩΝΕΙ ΤΟ ΑΠΟΜΑΚΡΥΣΜΕΝΟ PEL (magazioy,oikias)  apo to  PEL (laptop forthgoy)  ΜΕ ΤΟΥΣ ΠΕΛΑΤΕΣ ΠΟΥ ΤΟΥ ΛΕΙΠΟΥΝ
+'insert into PEL(KOD,EPO)  SELECT  KOD,EPO FROM [OIKIAS].MERCURY.dbo.PEL P WHERE P.KOD NOT IN (SELECT KOD FROM PEL )
+     
+cc = "insert into PEL(" + PelFields + ") SELECT  " + PelFields + "  FROM " + "[LAPTOP1].MERCURY.dbo" + ".PEL P WHERE   P.KOD NOT IN (SELECT KOD FROM PEL  ) "
+
+
+GREM.Execute cc, n
+
+
+
+
+
+If n >= 0 Then
+ List2.AddItem "Ελεγχος Ν2 ok" + Chr(13) + "PEL ΕΓΓΡΑΦΕΣ " + Str(n)
+Else
+  ' MsgBox "Ελεγχος Ν2 ΛΑΘΟΣ" + Chr(13) + "PEL "
+   'GREM.Close
+
+  ' Exit Sub
+End If
+
+
+
+n = 0
+
+
+
+' ΣΤΕΛΝΩ ΤΙ ΕΓΓΡΑΦΕΣ
+
+
+'ΠΡΟΥΠΟΘΕΣΗ ΣΤΟ ΛΑΠΤΟΠ ΝΑ ΓΙΝΕΙ
+'USE MERCURY
+'  ALTER TABLE TIM ADD ID2 UNIQUEIDENTIFIER  default NEWID()
+'  ALTER TABLE EGGTIM ADD ID2 VARCHAR(16)
+' ALTER TABLE EGG ADD ID2 UNIQUEIDENTIFIER  default NEWID()
+'ALTER TABLE EGG ADD ID2TIM VARCHAR(16)
+
+
+'ΚΑΙ ΣΤΗΝ ΒΑΣΗ
+'USE MERCURY
+'  ALTER TABLE TIM ADD ID2 VARCHAR(16)
+'  ALTER TABLE EGGTIM ADD ID2 VARCHAR(16)
+'ALTER TABLE EGG ADD ID2 VARCHAR(16)
+'ALTER TABLE EGG ADD ID2TIM VARCHAR(16)
+
+Dim eggtimFields, eggFields, timFields As String
+timFields = "KPE ,HME ,TRP ,ATIM ,ART ,AJI ,EIDOS ,METAF ,EKPT ,EIDPAR ,FPA1 ,FPA2 ,FPA3 ,FPA4 ,FPA6 ,FPA7 ,FPA8 ,FPA9 ,TYP ,AJ1 ,AJ2 ,AJ3 ,AJ4 ,AJ5 ,AJ6 ,AJ7 ,AJ8 ,AJ9 ,EKPT1 ,EKPT2 ,EKPT3 ,EKPT4 ,EKPT5 ,HME_KATAX ,KERDOS ,SKOPOS ,SXETIKO ,PARAT ,ELGA ,SYNPOS ,SKOPOS2 ,FORTOSH ,PROOR ,AYTOK ,B_C1 ,B_C2 ,B_N1 ,B_N2 ,KR1 ,KR2 ,ATIM2 ,KLEIDI ,PARAKRATISI ,LITRA ,EFK ,ORA ,ENTITYUID ,ENTITYMARK ,ENTITY ,AADEKAU ,AADEFPA ,ENTLINEN ,INCMARK ,APALAGIFPA ,TYPOMENO ,AKYROMENO ,SXETMARK ,C1 ,C2 ,C3 ,NUM1 ,NUM2 ,NUM3 ,C12 ,C13 ,NUM11 ,ID2"
+
+
+eggtimFields = "EIDOS,ATIM,POSO,MONA,TIMM,KERDOS,KODE,HME,ERGO,FPA,PROOD,PROOD_AJ,EKPT,KAU_AJIA,MIK_AJIA,ONOMA,MIKTA,KOLA,PELKOD,PROELEYSH,XRE,PIS,APOT,ATIM2,FCURRENCY,EKPT2,MIKTAKILA,XVRA,LITRA,EFK,AJAGOR,AJPOL,ID2,ID2TIM"
+
+eggFields = "EIDOS ,HME ,HME_KATAX ,EID ,APA ,XRE ,AIT ,XPI ,KOD ,PROOD ,SEIR ,ATIM ,XREOSI ,PISTOSI ,ATIM2 ,USERID ,IDGRA  ,AAXREOPIS ,IDEGGSYND ,ID2,ID2TIM"
+
+
+
+GDB.Execute "UPDATE EGGTIM SET ID2TIM=(SELECT ID2 FROM TIM WHERE ID_NUM=EGGTIM.ID_NUM) WHERE ID2TIM IS NULL"
+
+GDB.Execute "UPDATE EGG SET ID2TIM=(SELECT ID2 FROM TIM WHERE ID_NUM=EGG.IDTIM) WHERE IDTIM>0 AND ID2TIM IS NULL"
+
+
+
+' BAZEI STO KENTRIKO(KATASTHMA) TA TIMOLOGIA TOY LAPTOP
+cc = "insert into TIM (" + timFields + ") SELECT  " + timFields + "  FROM " + "[LAPTOP1].MERCURY.dbo" + ".TIM P WHERE   P.ID2 NOT IN (SELECT ID2 FROM TIM  ) "
+
+
+GREM.Execute cc, n
+
+If n >= 0 Then
+ List2.AddItem "Ελεγχος Ν ok" + Chr(13) + "TIM ΕΓΓΡΑΦΕΣ " + Str(n)
+Else
+  
+End If
+
+
+
+
+' BAZEI STO KENTRIKO(KATASTHMA) TA TIMOLOGIA TOY LAPTOP
+cc = "insert into EGGTIM (ID_NUM," + eggtimFields + ") SELECT  -1," + eggtimFields + "  FROM " + "[LAPTOP1].MERCURY.dbo" + ".EGGTIM P WHERE   P.ID2 NOT IN (SELECT ID2 FROM EGGTIM  ) "
+
+
+GREM.Execute cc, n
+
+If n >= 0 Then
+ List2.AddItem "Ελεγχος Ν ok" + Chr(13) + "EGGTIM ΕΓΓΡΑΦΕΣ " + Str(n)
+Else
+  
+End If
+
+
+
+
+' BAZEI STO KENTRIKO(KATASTHMA) TA TIMOLOGIA TOY LAPTOP
+cc = "insert into EGG (IDTIM," + eggFields + ") SELECT  -1," + eggFields + "  FROM " + "[LAPTOP1].MERCURY.dbo" + ".EGG P WHERE   P.ID2 NOT IN (SELECT ID2 FROM EGG  ) "
+
+
+GREM.Execute cc, n
+
+If n >= 0 Then
+ List2.AddItem "Ελεγχος Ν ok" + Chr(13) + "EGG ΕΓΓΡΑΦΕΣ " + Str(n)
+Else
+  
+End If
+
+
+
+
+
+GREM.Execute "UPDATE EGGTIM SET ID_NUM=(SELECT ID_NUM FROM TIM WHERE ID2=EGGTIM.ID2TIM ) WHERE ID_NUM=-1"
+
+
+
+GREM.Execute "UPDATE EGG SET IDTIM=(SELECT ID_NUM FROM TIM WHERE ID2=EGG.ID2TIM ) WHERE IDTIM=-1 AND (NOT ID2TIM IS NULL) "
+
+
+
+
+
+'===========================================================================================
+
+
+
+Exit Sub
+
+
+
+
+
+
+
+
+
+
+ R.Open "SELECT COUNT(*) AS N FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME  = 'EID'", GREM, adOpenDynamic, adLockOptimistic
+
+
+If R(0) > 0 Then
+     GREM.Execute "DROP TABLE EID"
+End If
+R.Close
+
+
+
+
+
+
+'GREM.Execute "DROP TABLE EID"
+ GREM.Execute "SELECT *  INTO EID  FROM " + linked_server + ".EID", n
+
+
+If n > 0 Then
+    List2.AddItem "Ελεγχος Ν3 ok" + Chr(13) + "ΕΙΔΗ ΕΓΓΡΑΦΕΣ " + Str(n)
+Else
+   MsgBox "Ελεγχος Ν3 ΛΑΘΟΣ" + Chr(13) + "ΕΙΔΗ "
+   GREM.Close
+
+   Exit Sub
+End If
+
+
+
+
+n = 0
+
+
+On Error Resume Next
+GREM.Execute "DROP TABLE BARCODES"
+
+
+On Error GoTo 0
+GREM.Execute "SELECT *  INTO BARCODES  FROM " + linked_server + ".BARCODES", n
+
+If n > 0 Then
+    List2.AddItem "Ελεγχος Ν4 ok" + Chr(13) + "BARCODES ΕΓΓΡΑΦΕΣ " + Str(n)
+Else
+   MsgBox "Ελεγχος Ν4 ΛΑΘΟΣ" + Chr(13) + "BARCODES "
+   GREM.Close
+
+   Exit Sub
+End If
+
+
+
+
+n = 0
+
+
+
+On Error Resume Next
+GREM.Execute "DROP TABLE EGGTIM"
+On Error GoTo 0
+
+
+
+
+Dim C35 As String, R35 As New ADODB.Recordset
+C35 = " FROM " + linked_server + ".EGGTIM  WHERE ATIM='" + c3 + "'"
+R35.Open "select count(*) " + C35, GREM, adOpenDynamic
+ List2.AddItem "Ελεγχος Ν5 ok" + Chr(13) + Str(R35(0)) + "EGGTIM ΕΓΓΡΑΦΕΣ "
+R35.Close
+
+
+
+GREM.Execute "SELECT *  INTO EGGTIM  " + C35, n
+
+If n > 0 Then
+    List2.AddItem "Ελεγχος Ν5 ok" + Chr(13) + "EGGTIM ΕΓΓΡΑΦΕΣ " + Str(n)
+     GREM.Execute "alter table EGGTIM  drop COLUMN ID"
+     GREM.Execute "UPDATE EGGTIM SET ID_NUM=1" ' ΕΠΕΙΔΗ ΘΑ ΞΑΝΑΔΗΜΙΟΥΡΓΗΘΕΙ ΤΟ ΤΙΜ ΚΑΙ ΘΑ ΠΑΡΕΙ ΤΟ 1 ΤΟ ΣΥΓΚΕΝΤΡΩΤΙΚΟ
+Else
+   MsgBox "Ελεγχος Ν5 ΛΑΘΟΣ" + Chr(13) + "EGGTIM ΔΕΝ ΜΕΤΑΦΕΡΘΗΚΕ ΤΟ ΣΥΓΚΕΝΤΡΩΤΙΚΟ"
+  
+   
+   
+   
+   GREM.Close
+   Exit Sub
+End If
+n = 0
+
+
+
+
+
+On Error Resume Next
+GREM.Execute "DROP TABLE TIM"
+On Error GoTo 0
+
+
+
+GREM.Execute "SELECT *  INTO TIM   FROM " + linked_server + ".TIM WHERE ATIM='" + c3 + "'", n
+If n > 0 Then
+    List2.AddItem "Ελεγχος Ν6 ok" + Chr(13) + "TIM ΕΓΓΡΑΦΕΣ " + Str(n)
+    GREM.Execute "alter table TIM  drop COLUMN ID_NUM"
+
+Else
+   MsgBox "Ελεγχος Ν6 ΛΑΘΟΣ" + Chr(13) + "TIM "
+   GREM.Close
+   Exit Sub
+End If
+n = 0
+GREM.Execute "DROP TABLE EGG"
+GREM.Execute "SELECT *  INTO EGG   FROM " + linked_server + ".EGG", n
+If n > 0 Then
+    List2.AddItem "Ελεγχος Ν7 ok" + Chr(13) + "EGG ΕΓΓΡΑΦΕΣ " + Str(n)
+     GREM.Execute "alter table EGG  drop COLUMN ID"
+Else
+   MsgBox "Ελεγχος Ν7 ΛΑΘΟΣ" + Chr(13) + "EGG "
+   GREM.Close
+   Exit Sub
+End If
+n = 0
+
+
+'ΓΙΑ ΝΑ ΚΑΝΕΙ UPDATE THN BASH
+GREM.Execute "UPDATE PARAMETROI SET TIMH='' WHERE FORMA='MDIFORM1' AND VAR='F_VER' "
+
+
+GREM.Execute "UPDATE EGG SET IDTIM=999", n
+
+
+
+
+
+
+
+'Dim R As New ADODB.Recordset
+R.Open "select sum(POSO) from EGGTIM WHERE LEFT(ATIM,7)='" + c3 + "'", GREM, adOpenDynamic, adLockOptimistic
+
+If R(0) = Val(c2) Then
+   List2.AddItem "Ελεγχος ΤΕΛΙΚΟΣ  ok EGGTIM"
+   GREM.Execute "UPDATE EGGTIM SET XRE=POSO,PIS=0"
+Else
+   MsgBox "Ελεγχος ΤΕΛΙΚΟΣ ΛΑΘΟΣ" + Chr(13) + "EGGTIM"
+   GREM.Execute "UPDATE EGGTIM SET XRE=POSO,PIS=0"
+   GDB.Close
+
+   Exit Sub
+End If
+
+R.Close
+
+
+
+
+
+
+'Dim r As New ADODB.Recordset
+R.Open "select sum(POSO) from EGGTIM WHERE LEFT(ATIM,7)='" + c3 + "'", GREM, adOpenDynamic, adLockOptimistic
+If R(0) = Val(c2) Then
+   List2.AddItem "Ελεγχος Ν1 ok" + Chr(13) + "MERCFORHTOY.EGGTIM"
+Else
+   MsgBox "Ελεγχος Ν1 ΛΑΘΟΣ" + Chr(13) + "MERCFORHTOY.EGGTIM"
+   GREM.Close
+   Exit Sub
+End If
+R.Close
+
+n = 0
+
+
+
+MsgBox "OK"
+
+
 
 
 
