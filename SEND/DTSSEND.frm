@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmDTSTransferObjectsTask 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "DTSTransferObjectsTask Object"
-   ClientHeight    =   6435
+   ClientHeight    =   7170
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   8175
@@ -10,12 +10,12 @@ Begin VB.Form frmDTSTransferObjectsTask
    LockControls    =   -1  'True
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   6435
+   ScaleHeight     =   7170
    ScaleWidth      =   8175
    StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton NeoiPel 
       BackColor       =   &H00FFFF80&
-      Caption         =   "Õ›ÔÈ –ÂÎ‹ÙÂÚ"
+      Caption         =   "Õ›ÔÈ –ÂÎ‹ÙÂÚ-TIMOÀO√…¡"
       Height          =   435
       Left            =   3600
       Style           =   1  'Graphical
@@ -38,12 +38,23 @@ Begin VB.Form frmDTSTransferObjectsTask
       Style           =   1  'Graphical
       TabIndex        =   0
       Top             =   0
+      Visible         =   0   'False
       Width           =   3495
    End
    Begin VB.Timer Timer1 
       Interval        =   60000
       Left            =   285
       Top             =   3255
+   End
+   Begin VB.Label Label2 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "C:\MERCVB\LAPTOP2.TXT  „È· 2Ô LAPTOP"
+      Height          =   195
+      Left            =   960
+      TabIndex        =   4
+      Top             =   6720
+      Width           =   3285
    End
    Begin VB.Label Label1 
       Caption         =   "¬ÔﬁËÂÈ·"
@@ -88,6 +99,7 @@ Dim fTopikos As String
 
 Dim FLINKED As String
 
+Dim FLAPTOP As String
 
 
 
@@ -573,6 +585,10 @@ Input #1, gconnect
 Input #1, FLINKED  'linked server (sto forhto) pos blepo ton sql toy kentrikoy p.x. [QUEST-PC\DOYTSIOS].mercury.dbo
 
 Close #1
+ FLAPTOP = "LAPTOP1"
+ If Len(Dir("C:\MERCVB\LAPTOP2.TXT", vbNormal)) > 0 Then
+       FLAPTOP = "LAPTOP2"
+ End If
  
  
  GREM.Open fConnString
@@ -639,6 +655,7 @@ Dim R As New ADODB.Recordset
 'R.Close
 
 
+List2.AddItem "À¡–‘œ– " + FLAPTOP
 
 
 
@@ -646,6 +663,7 @@ Dim GMAGAZ As New ADODB.Connection
 'GMAGAZ.Open "DSN=delloikias2;uid=sa;pwd=12345678"
 
 
+List2.AddItem "FLINKED " + FLINKED
 
 
 
@@ -664,7 +682,9 @@ List2.AddItem "≈ÎÂ„˜ÔÚ 2 OK"
      
 Dim PelFields As String
 PelFields = "EIDOS,EPO,ONO,DIE,POL,THL,EPA,AFM,PEK,AEG,AYP,TYP,XRESYN,KOD,SHM1,SHM2,KART,XREMHN,PISMHN,XRE,PIS,PMXRE,PMPIS,LASTUPDT,PISSYN,ARTIM,SUMTIM,KODGAL,PLAISIO,ARPARAG,HMELHJ,HME_LHJ,TYPOS,XRVMA,DOY,PLAFON,HMERESAPOP,MEMO,NUM1,NUM2,NUM3,NUM4,HM1,HM2,HM3,HM4,HM5,HM6,CH1,CH2,CH3,CH4,CH5,CH6,ENERGOS,NUM5,NUM6,COMB1,COMB2,COMB3,COMB4,COMB5,EMAIL,KINHTO,PVLHTHS,HM7,HM8,HM9,HM10,HM11,ADT,CH7,COUNTRY"
-     
+ 
+ 
+ '==============  ƒ«Ã…œ’—√Ÿ ‘œ’ –≈À¡‘≈” –œ’ ƒ≈Õ ’–¡—◊œ’Õ ”‘œ À¡–‘œ–
 cc = "insert into PEL(" + PelFields + ") SELECT " + PelFields + "  FROM " + linked_server + ".PEL P  WHERE   P.KOD NOT IN (SELECT KOD FROM PEL  ) "
 '≈Õ«Ã≈—ŸÕ≈… ‘œ ‘œ–… œ PEL (laptop forthgoy)  Ã≈ ‘œ’” –≈À¡‘≈” –œ’ ‘œ’ À≈…–œ’Õ ¡–œ ‘œ ¡–œÃ¡ —’”Ã≈Õœ PEL (magazioy,oikias)'
 'GMAGAZ.Execute "insert into PEL(KOD,EPO)  SELECT  KOD,EPO FROM [OIKIAS].MERCURY.dbo.PEL P WHERE P.KOD NOT IN (SELECT KOD FROM PEL ) "
@@ -672,17 +692,17 @@ cc = "insert into PEL(" + PelFields + ") SELECT " + PelFields + "  FROM " + link
 GDB.Execute cc, n
 
 
+List2.AddItem "≈ÎÂ„˜ÔÚ 2.1 OK"
 
-
-'≈Õ«Ã≈—ŸÕ≈… ‘œ ¡–œÃ¡ —’”Ã≈Õœ PEL (magazioy,oikias)  apo to  PEL (laptop forthgoy)  Ã≈ ‘œ’” –≈À¡‘≈” –œ’ ‘œ’ À≈…–œ’Õ
+'================  ≈Õ«Ã≈—ŸÕ≈… ‘œ ¡–œÃ¡ —’”Ã≈Õœ PEL (magazioy,oikias)  apo to  PEL (laptop forthgoy)  Ã≈ ‘œ’” –≈À¡‘≈” –œ’ ‘œ’ À≈…–œ’Õ
 'insert into PEL(KOD,EPO)  SELECT  KOD,EPO FROM [OIKIAS].MERCURY.dbo.PEL P WHERE P.KOD NOT IN (SELECT KOD FROM PEL )
      
-cc = "insert into PEL(" + PelFields + ") SELECT  " + PelFields + "  FROM " + "[LAPTOP1].MERCURY.dbo" + ".PEL P WHERE   P.KOD NOT IN (SELECT KOD FROM PEL  ) "
+cc = "insert into PEL(" + PelFields + ") SELECT  " + PelFields + "  FROM " + "[" + FLAPTOP + "].MERCURY.dbo" + ".PEL P WHERE   P.KOD NOT IN (SELECT KOD FROM PEL  where not (KOD IS NULL)  ) "
 
 
 GREM.Execute cc, n
 
-
+List2.AddItem "≈ÎÂ„˜ÔÚ 2.2 OK"
 
 
 
@@ -722,24 +742,28 @@ n = 0
 Dim eggtimFields, eggFields, timFields As String
 timFields = "KPE ,HME ,TRP ,ATIM ,ART ,AJI ,EIDOS ,METAF ,EKPT ,EIDPAR ,FPA1 ,FPA2 ,FPA3 ,FPA4 ,FPA6 ,FPA7 ,FPA8 ,FPA9 ,TYP ,AJ1 ,AJ2 ,AJ3 ,AJ4 ,AJ5 ,AJ6 ,AJ7 ,AJ8 ,AJ9 ,EKPT1 ,EKPT2 ,EKPT3 ,EKPT4 ,EKPT5 ,HME_KATAX ,KERDOS ,SKOPOS ,SXETIKO ,PARAT ,ELGA ,SYNPOS ,SKOPOS2 ,FORTOSH ,PROOR ,AYTOK ,B_C1 ,B_C2 ,B_N1 ,B_N2 ,KR1 ,KR2 ,ATIM2 ,KLEIDI ,PARAKRATISI ,LITRA ,EFK ,ORA ,ENTITYUID ,ENTITYMARK ,ENTITY ,AADEKAU ,AADEFPA ,ENTLINEN ,INCMARK ,APALAGIFPA ,TYPOMENO ,AKYROMENO ,SXETMARK ,C1 ,C2 ,C3 ,NUM1 ,NUM2 ,NUM3 ,C12 ,C13 ,NUM11 ,ID2"
 
+List2.AddItem "≈ÎÂ„˜ÔÚ 3.1 OK"
 
 eggtimFields = "EIDOS,ATIM,POSO,MONA,TIMM,KERDOS,KODE,HME,ERGO,FPA,PROOD,PROOD_AJ,EKPT,KAU_AJIA,MIK_AJIA,ONOMA,MIKTA,KOLA,PELKOD,PROELEYSH,XRE,PIS,APOT,ATIM2,FCURRENCY,EKPT2,MIKTAKILA,XVRA,LITRA,EFK,AJAGOR,AJPOL,ID2,ID2TIM"
 
 eggFields = "EIDOS ,HME ,HME_KATAX ,EID ,APA ,XRE ,AIT ,XPI ,KOD ,PROOD ,SEIR ,ATIM ,XREOSI ,PISTOSI ,ATIM2 ,USERID ,IDGRA  ,AAXREOPIS ,IDEGGSYND ,ID2,ID2TIM"
 
-
+List2.AddItem "≈ÎÂ„˜ÔÚ 3.2 OK"
 
 GDB.Execute "UPDATE EGGTIM SET ID2TIM=(SELECT ID2 FROM TIM WHERE ID_NUM=EGGTIM.ID_NUM) WHERE ID2TIM IS NULL"
 
 GDB.Execute "UPDATE EGG SET ID2TIM=(SELECT ID2 FROM TIM WHERE ID_NUM=EGG.IDTIM) WHERE IDTIM>0 AND ID2TIM IS NULL"
 
-
+List2.AddItem "≈ÎÂ„˜ÔÚ 3.3 OK"
 
 ' BAZEI STO KENTRIKO(KATASTHMA) TA TIMOLOGIA TOY LAPTOP
-cc = "insert into TIM (" + timFields + ") SELECT  " + timFields + "  FROM " + "[LAPTOP1].MERCURY.dbo" + ".TIM P WHERE   P.ID2 NOT IN (SELECT ID2 FROM TIM  ) "
+cc = "insert into TIM (" + timFields + ") SELECT  " + timFields + "  FROM " + "[" + FLAPTOP + "].MERCURY.dbo" + ".TIM P WHERE  left(ATIM,1) IN (SELECT EIDOS FROM PARASTAT WHERE POL=1 AND AJIA_APOU<>0) AND  P.ID2 NOT IN (SELECT ID2 FROM TIM where not (ID2 IS NULL) ) "
 
 
 GREM.Execute cc, n
+
+List2.AddItem "≈ÎÂ„˜ÔÚ 3.4 OK"
+
 
 If n >= 0 Then
  List2.AddItem "≈ÎÂ„˜ÔÚ Õ ok" + Chr(13) + "TIM ≈√√—¡÷≈” " + Str(n)
@@ -751,10 +775,14 @@ End If
 
 
 ' BAZEI STO KENTRIKO(KATASTHMA) TA TIMOLOGIA TOY LAPTOP
-cc = "insert into EGGTIM (ID_NUM," + eggtimFields + ") SELECT  -1," + eggtimFields + "  FROM " + "[LAPTOP1].MERCURY.dbo" + ".EGGTIM P WHERE   P.ID2 NOT IN (SELECT ID2 FROM EGGTIM  ) "
+cc = "insert into EGGTIM (ID_NUM," + eggtimFields + ") SELECT  -1," + eggtimFields + "  FROM " + "[" + FLAPTOP + "].MERCURY.dbo" + ".EGGTIM P WHERE   left(ATIM,1) IN (SELECT EIDOS FROM PARASTAT WHERE POL=1 AND AJIA_APOU<>0)  AND  P.ID2 NOT IN (SELECT ID2 FROM EGGTIM  where not (ID2 IS NULL)  ) "
 
 
 GREM.Execute cc, n
+
+List2.AddItem "≈ÎÂ„˜ÔÚ 3.8 OK"
+
+
 
 If n >= 0 Then
  List2.AddItem "≈ÎÂ„˜ÔÚ Õ ok" + Chr(13) + "EGGTIM ≈√√—¡÷≈” " + Str(n)
@@ -766,10 +794,14 @@ End If
 
 
 ' BAZEI STO KENTRIKO(KATASTHMA) TA TIMOLOGIA TOY LAPTOP
-cc = "insert into EGG (IDTIM," + eggFields + ") SELECT  -1," + eggFields + "  FROM " + "[LAPTOP1].MERCURY.dbo" + ".EGG P WHERE   P.ID2 NOT IN (SELECT ID2 FROM EGG  ) "
+cc = "insert into EGG (IDTIM," + eggFields + ") SELECT  -1," + eggFields + "  FROM " + "[" + FLAPTOP + "].MERCURY.dbo" + ".EGG P WHERE   P.ID2 NOT IN (SELECT ID2 FROM EGG  where not (ID2 IS NULL)  ) "
 
 
 GREM.Execute cc, n
+
+List2.AddItem "≈ÎÂ„˜ÔÚ 3.9 OK"
+
+
 
 If n >= 0 Then
  List2.AddItem "≈ÎÂ„˜ÔÚ Õ ok" + Chr(13) + "EGG ≈√√—¡÷≈” " + Str(n)
@@ -781,13 +813,13 @@ End If
 
 
 
-GREM.Execute "UPDATE EGGTIM SET ID_NUM=(SELECT ID_NUM FROM TIM WHERE ID2=EGGTIM.ID2TIM ) WHERE ID_NUM=-1"
+GREM.Execute "UPDATE EGGTIM SET ID_NUM=(SELECT TOP 1 ID_NUM FROM TIM WHERE ID2=EGGTIM.ID2TIM ) WHERE ID_NUM=-1"
 
+List2.AddItem "≈ÎÂ„˜ÔÚ 3.10 OK"
 
+GREM.Execute "UPDATE EGG SET IDTIM=(SELECT TOP 1 ID_NUM FROM TIM WHERE ID2=EGG.ID2TIM ) WHERE IDTIM=-1 AND (NOT ID2TIM IS NULL) "
 
-GREM.Execute "UPDATE EGG SET IDTIM=(SELECT ID_NUM FROM TIM WHERE ID2=EGG.ID2TIM ) WHERE IDTIM=-1 AND (NOT ID2TIM IS NULL) "
-
-
+List2.AddItem "≈ÎÂ„˜ÔÚ 3.11 OK"
 
 
 
