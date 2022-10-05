@@ -7,12 +7,19 @@ Begin VB.Form frmDTSTransferObjectsTask
    ClientTop       =   330
    ClientWidth     =   8175
    LinkTopic       =   "Form1"
-   LockControls    =   -1  'True
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   7170
    ScaleWidth      =   8175
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton Command1 
+      Caption         =   "≈Õ«Ã≈—Ÿ”« Ã≈ ’–œÀœ…–¡"
+      Height          =   360
+      Left            =   4680
+      TabIndex        =   5
+      Top             =   6360
+      Width           =   2895
+   End
    Begin VB.CommandButton NeoiPel 
       BackColor       =   &H00FFFF80&
       Caption         =   "Õ›ÔÈ –ÂÎ‹ÙÂÚ-TIMOÀO√…¡"
@@ -298,8 +305,35 @@ Dim FLAPTOP As String
 'End Function
 
 Private Sub Command1_Click()
-'Execute the TaskPackage
-'GenericTaskPackage
+
+' ENHMERVSH PELATON ME YPOLOIPA STO PEDIO LITRA
+'GDB LOCAL CONNECTION
+'GREM REMOTE CONNECTION
+
+
+Dim n, c, c2, c3
+GDB.Open gconnect   '  "DSN=FORITO;UID=sa;PWD=sa"
+Dim linked_server As String:
+linked_server = FLINKED 'local  "[KENTRIKOS\SQLGOGAKIS].MERCURY.dbo"
+
+Dim R As New ADODB.Recordset
+List2.AddItem "À¡–‘œ– " + FLAPTOP
+Dim GMAGAZ As New ADODB.Connection
+List2.AddItem "FLINKED " + FLINKED
+On Error Resume Next
+GMAGAZ.Open fConnString   'DSN REMOTE SERVER ME DEFAULT DATABASE MERCURY P.X. dsn=delloikias2;uid=sa;pwd=12345678
+List2.AddItem "≈ÎÂ„˜ÔÚ 2 OK"
+ On Error GoTo 0
+
+GMAGAZ.Execute "UPDATE PEL SET CH1=  CAST(ROUND(ISNULL(TYP,0),2)  AS CHAR(12) ) "
+GDB.Execute "UPDATE PEL SET CH1=' ' "
+GDB.Execute "UPDATE PEL   SET CH1=(SELECT TOP 1 CH1  FROM " + linked_server + ".PEL GG  WHERE GG.KOD=PEL.KOD)"
+
+
+
+
+
+
 
 
 
