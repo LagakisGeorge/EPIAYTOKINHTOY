@@ -10,7 +10,6 @@ Form=DTSSEND.frm
 Startup="frmDTSTransferObjectsTask"
 HelpFile=""
 ExeName32="GOGSEND.exe"
-Path32="F:\"
 Command32=""
 Name="DTSTransferObjectsTask"
 HelpContextID="0"

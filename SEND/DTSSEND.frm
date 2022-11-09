@@ -624,7 +624,9 @@ Close #1
        FLAPTOP = "LAPTOP2"
  End If
  
- 
+ If Len(Dir("C:\MERCVB\LAPTOP3.TXT", vbNormal)) > 0 Then
+       FLAPTOP = "LAPTOP3"
+ End If
  GREM.Open fConnString
  
  
