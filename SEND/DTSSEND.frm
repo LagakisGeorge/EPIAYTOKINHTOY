@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmDTSTransferObjectsTask 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "DTSTransferObjectsTask Object"
@@ -12,6 +13,30 @@ Begin VB.Form frmDTSTransferObjectsTask
    ScaleHeight     =   7170
    ScaleWidth      =   8175
    StartUpPosition =   3  'Windows Default
+   Begin MSComCtl2.DTPicker DTPicker2 
+      Height          =   375
+      Left            =   5280
+      TabIndex        =   7
+      Top             =   720
+      Width           =   2295
+      _ExtentX        =   4048
+      _ExtentY        =   661
+      _Version        =   393216
+      Format          =   112263169
+      CurrentDate     =   45007
+   End
+   Begin MSComCtl2.DTPicker DTPicker1 
+      Height          =   375
+      Left            =   1680
+      TabIndex        =   6
+      Top             =   720
+      Width           =   2055
+      _ExtentX        =   3625
+      _ExtentY        =   661
+      _Version        =   393216
+      Format          =   112328705
+      CurrentDate     =   45007
+   End
    Begin VB.CommandButton Command1 
       Caption         =   "ÅÍÇÌÅÑÙÓÇ ÌÅ ÕÐÏËÏÉÐÁ"
       Height          =   360
@@ -31,10 +56,10 @@ Begin VB.Form frmDTSTransferObjectsTask
       Width           =   3495
    End
    Begin VB.ListBox List2 
-      Height          =   5520
+      Height          =   4740
       Left            =   0
       TabIndex        =   1
-      Top             =   720
+      Top             =   1320
       Width           =   7575
    End
    Begin VB.CommandButton Command2 
@@ -52,6 +77,26 @@ Begin VB.Form frmDTSTransferObjectsTask
       Interval        =   60000
       Left            =   285
       Top             =   3255
+   End
+   Begin VB.Label Label4 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Åùò"
+      Height          =   315
+      Left            =   4440
+      TabIndex        =   9
+      Top             =   720
+      Width           =   420
+   End
+   Begin VB.Label Label3 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Áðü"
+      Height          =   195
+      Left            =   480
+      TabIndex        =   8
+      Top             =   720
+      Width           =   285
    End
    Begin VB.Label Label2 
       AutoSize        =   -1  'True
@@ -655,7 +700,8 @@ Private Sub NeoiPel_Click()
 Dim n, c, c2, c3
 
 
-
+Dim syntt As String
+syntt = " HME>='" + Format(DTPicker1.Value, "mm/dd/yyyy") + "' and HME<='" + Format(DTPicker2.Value, "mm/dd/yyyy") + "' "
 
 
 
@@ -793,7 +839,7 @@ GDB.Execute "UPDATE EGG SET ID2TIM=(SELECT ID2 FROM TIM WHERE ID_NUM=EGG.IDTIM) 
 List2.AddItem "Åëåã÷ïò 3.3 OK"
 
 ' BAZEI STO KENTRIKO(KATASTHMA) TA TIMOLOGIA TOY LAPTOP
-cc = "insert into TIM (" + timFields + ") SELECT  " + timFields + "  FROM " + "[" + FLAPTOP + "].MERCURY.dbo" + ".TIM P WHERE  left(ATIM,1) IN (SELECT EIDOS FROM PARASTAT WHERE POL=1 AND AJIA_APOU<>0) AND  P.ID2 NOT IN (SELECT ID2 FROM TIM where not (ID2 IS NULL) ) "
+cc = "insert into TIM (" + timFields + ") SELECT  " + timFields + "  FROM " + "[" + FLAPTOP + "].MERCURY.dbo" + ".TIM P WHERE " + syntt + " and  left(ATIM,1) IN (SELECT EIDOS FROM PARASTAT WHERE POL=1 AND AJIA_APOU<>0) AND  P.ID2 NOT IN (SELECT ID2 FROM TIM where not (ID2 IS NULL) ) "
 
 
 GREM.Execute cc, n
@@ -811,7 +857,7 @@ End If
 
 
 ' BAZEI STO KENTRIKO(KATASTHMA) TA TIMOLOGIA TOY LAPTOP
-cc = "insert into EGGTIM (ID_NUM," + eggtimFields + ") SELECT  -1," + eggtimFields + "  FROM " + "[" + FLAPTOP + "].MERCURY.dbo" + ".EGGTIM P WHERE   left(ATIM,1) IN (SELECT EIDOS FROM PARASTAT WHERE POL=1 AND AJIA_APOU<>0)  AND  P.ID2 NOT IN (SELECT ID2 FROM EGGTIM  where not (ID2 IS NULL)  ) "
+cc = "insert into EGGTIM (ID_NUM," + eggtimFields + ") SELECT  -1," + eggtimFields + "  FROM " + "[" + FLAPTOP + "].MERCURY.dbo" + ".EGGTIM P WHERE " + syntt + " and   left(ATIM,1) IN (SELECT EIDOS FROM PARASTAT WHERE POL=1 AND AJIA_APOU<>0)  AND  P.ID2 NOT IN (SELECT ID2 FROM EGGTIM  where not (ID2 IS NULL)  ) "
 
 
 GREM.Execute cc, n
@@ -830,7 +876,7 @@ End If
 
 
 ' BAZEI STO KENTRIKO(KATASTHMA) TA TIMOLOGIA TOY LAPTOP
-cc = "insert into EGG (IDTIM," + eggFields + ") SELECT  -1," + eggFields + "  FROM " + "[" + FLAPTOP + "].MERCURY.dbo" + ".EGG P WHERE   P.ID2 NOT IN (SELECT ID2 FROM EGG  where not (ID2 IS NULL)  ) "
+cc = "insert into EGG (IDTIM," + eggFields + ") SELECT  -1," + eggFields + "  FROM " + "[" + FLAPTOP + "].MERCURY.dbo" + ".EGG P WHERE " + syntt + " and  P.ID2 NOT IN (SELECT ID2 FROM EGG  where not (ID2 IS NULL)  ) "
 
 
 GREM.Execute cc, n
